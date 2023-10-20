@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider	= "mongodb"
+  url		= env("DATABASE_URL")
+}
+
+model User {
+ 	id			String	@id @default(auto()) @map("_id") @db.ObjectId
+	username	String   @unique
+	firstname	String
+	lastname	String
+	password	String
+	avatarId	String? @map("avatar_id")
+	createdAt 	DateTime @default(now()) @map("created_at")
+	words		Word[]
+	categories	Category[]
+	userAvatart UserAvatar[]
+	sharedWords	SharedWord[]
+	@@map("users")
+}
+
+model Category {
+	id			String @id @default(auto()) @map("_id") @db.ObjectId
+	name		String
+	color		String?
+	createdBy	String @db.ObjectId @map("created_by")
+	user		User @relation(fields: [createdBy], references: [id])
+	words 		Word[]
+	sharedWords	SharedWord[]
+	@@map("categories")
+}
+
+model Word {
+	id			String @id @default(auto()) @map("_id") @db.ObjectId
+	value		String
+	desc		String
+	spelling	String
+	date		String
+	color		String?
+	createdAt 	DateTime @default(now()) @map("created_at")
+	createdBy	String @db.ObjectId @map("created_by")
+	user		User @relation(fields: [createdBy], references: [id])
+	categoryId	String @db.ObjectId @map("category_id")
+	category	Category @relation(fields: [categoryId], references: [id])
+
+	sharedWords	SharedWord[]
+	@@map("words")
+}
+
+model Avatar {
+	id			String @id @default(auto()) @map("_id") @db.ObjectId
+	path		String
+	userAvatar	UserAvatar[]
+}
+
+model UserAvatar {
+	id			String @id @default(auto()) @map("_id") @db.ObjectId
+	current		Boolean
+	userId		String @db.ObjectId @map("user_id")
+	user		User @relation(fields: [userId], references: [id])
+	avatarId	String @db.ObjectId @map("avatar_id")
+	avatar		Avatar @relation(fields: [avatarId], references: [id])
+}
+
+model SharedWord {
+	id	String @id @default(auto()) @map("_id") @db.ObjectId
+	date	String
+	
+	userId		String @db.ObjectId @map("user_id")
+	user		User @relation(fields: [userId], references: [id])
+	wordId		String @db.ObjectId @map("word_id")
+	word		Word @relation(fields: [wordId], references: [id])
+	categoryId	String @db.ObjectId @map("category_id")
+	category	Category @relation(fields: [categoryId], references: [id])
+}
