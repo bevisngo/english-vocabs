@@ -19,22 +19,22 @@ const HomePage : React.FC<Props> = (props) => {
 						Word title
 					</div>
 					<div className="HomePageWrapper-MainContent-Item">
-						Word title
+						Word title 2
 					</div>
 					<div className="HomePageWrapper-MainContent-Item">
-						Word title
+						Word title 3
 					</div>
 					<div className="HomePageWrapper-MainContent-Item">
-						Word title
+						Word title 4
+					</div> 
+					<div className="HomePageWrapper-MainContent-Item">
+						Word title 5
 					</div>
 					<div className="HomePageWrapper-MainContent-Item">
-						Word title
+						Word title 6
 					</div>
 					<div className="HomePageWrapper-MainContent-Item">
-						Word title
-					</div>
-					<div className="HomePageWrapper-MainContent-Item">
-						Word title
+						Word title 7
 					</div>
 
 				</div>
