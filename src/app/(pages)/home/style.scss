@@ -1,0 +1,45 @@
+@mixin center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.HomePageWrapper {
+	&-Header {
+		height: 80px;
+		background-image: linear-gradient(to right, #121212, #393630 15%, #393630 86%, #121212);
+		display: flex;
+		justify-content: flex-end;
+		padding: 0 20px;
+		align-items: center;
+		color: #ffffff;
+	}
+
+	&-MainContent {
+		margin-top: 40px;
+		&-Items {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 20px;
+			align-items: center;
+			justify-content: center;
+		}
+		&-Item {
+			width: 300px;
+			color: #ffffff;
+			height: 60px;
+			box-sizing: border-box;
+			background-color: #a29bfe;
+			border-radius: 12px;
+			font-size: 20px;
+			font-weight: bold;
+			cursor: pointer;
+			@include center;
+
+			&:hover {
+				background-color: #ffeaa7;
+				color: #00b894;
+			}
+		}
+	}
+}

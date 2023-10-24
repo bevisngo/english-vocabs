@@ -4,7 +4,8 @@ import "./style.scss";
 import { useState } from "react";
 import axios from "axios";
 import { LOCAL_TOKEN_KEY } from "@/src/constant/storage";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/navigation";
+import { signupAPI } from "@/src/network/client/auth";
 
 interface User {
 	username: string;
@@ -22,19 +23,20 @@ const initData = {
 };
 
 const SignupPage = () => {
-	const router = useRouter();
 	const [data, setData] = useState(initData);
+	const router = useRouter();
 
 	const handleChange = (field: keyof User, value: string) => {
 		setData({ ...data, [field]: value });
 	};
 
 	const handleSubmit = () => {
-		axios
-			.post("/sign-up/api", data)
-			.then(function (response) {
-				const { data: { data, token } } = response;
-				if(data && token) {
+		signupAPI(data)
+			.then((response: any) => {
+				const {
+					data: { data, token },
+				} = response;
+				if (data && token) {
 					localStorage.setItem(LOCAL_TOKEN_KEY, token);
 					router.push("/home");
 				}
@@ -43,7 +45,6 @@ const SignupPage = () => {
 				console.log(error);
 			});
 	};
-
 	return (
 		<div className="SignupContainer">
 			<div className="SignupWrapper">
