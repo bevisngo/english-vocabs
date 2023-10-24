@@ -1,38 +1,21 @@
 import db from "@/server/db";
 import bcrypt from "bcrypt";
-import { z } from 'zod'
-
-export async function GET(request: Request) {
-	try {
-		const users = await db.user.findMany();
-		return Response.json({
-			users,
-		});
-	} catch (error) {
-		return Response.json({
-			error,
-		});
-	}
-}
-
-const schema = z.object({
-	username: z.string().min(5),
-	firstname: z.string().min(2),
-	lastname: z.string().min(2),
-	password: z.string(),
-});
+import jwt from "jsonwebtoken";
+import { SECRET_KEY } from "@/src/config/key";
+import SignUpFormatedResponse from "./format";
+import { signupSchema } from "./dto";
 
 export async function POST(request: Request) {
 	try {
 		const payload = await request.json();
-		const data = schema.parse(payload);
+		const data = signupSchema.parse(payload);
 		data.password = await bcrypt.hash(data.password, 10);
 		const user = await db.user.create({ data });
-
-		return Response.json({
-			user,
-		});
+		const token = jwt.sign({ id: user.id }, SECRET_KEY!);
+		const response = new SignUpFormatedResponse(user, token);
+		return Response.json(response.getInstance());
 	} catch (error) {
+		console.log(error);
 		return Response.json({
 			error,
 		});

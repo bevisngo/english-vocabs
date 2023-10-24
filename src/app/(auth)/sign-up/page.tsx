@@ -3,6 +3,8 @@ import Link from "next/link";
 import "./style.scss";
 import { useState } from "react";
 import axios from "axios";
+import { LOCAL_TOKEN_KEY } from "@/src/constant/storage";
+import { useRouter } from 'next/router'
 
 interface User {
 	username: string;
@@ -20,6 +22,7 @@ const initData = {
 };
 
 const SignupPage = () => {
+	const router = useRouter();
 	const [data, setData] = useState(initData);
 
 	const handleChange = (field: keyof User, value: string) => {
@@ -27,11 +30,14 @@ const SignupPage = () => {
 	};
 
 	const handleSubmit = () => {
-		console.log(data);
 		axios
 			.post("/sign-up/api", data)
 			.then(function (response) {
-				console.log(response);
+				const { data: { data, token } } = response;
+				if(data && token) {
+					localStorage.setItem(LOCAL_TOKEN_KEY, token);
+					router.push("/home");
+				}
 			})
 			.catch(function (error) {
 				console.log(error);
