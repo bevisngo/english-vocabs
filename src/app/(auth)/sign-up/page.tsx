@@ -35,9 +35,7 @@ const SignupPage = () => {
 		if (typeof window !== "undefined") {
 			signupAPI(data)
 			.then((response: any) => {
-				const {
-					data: { data, token },
-				} = response;
+				const { data, token } = response;
 				if (data && token) {
 					localStorage.setItem(LOCAL_TOKEN_KEY, token);
 					router.push("/home");
