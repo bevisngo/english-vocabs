@@ -31,7 +31,8 @@ const SignupPage = () => {
 	};
 
 	const handleSubmit = () => {
-		signupAPI(data)
+		if (typeof window !== "undefined") {
+			signupAPI(data)
 			.then((response: any) => {
 				const {
 					data: { data, token },
@@ -44,6 +45,7 @@ const SignupPage = () => {
 			.catch(function (error) {
 				console.log(error);
 			});
+		}
 	};
 	return (
 		<div className="SignupContainer">

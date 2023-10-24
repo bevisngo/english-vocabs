@@ -9,7 +9,7 @@ export class APIProvider {
 	getInstance(isAuth: boolean, header?: Header) {
 		const instance = axios.create({
 			// timeout: 5000, // time out
-			...(isAuth && {
+			...(isAuth && typeof window !== "undefined" && {
 				headers: {
 					Authentication: localStorage.getItem(LOCAL_TOKEN_KEY),
 				},

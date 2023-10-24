@@ -26,17 +26,19 @@ const LoginPage = () => {
 	};
 
 	const handleSubmit = () => {
-		logginAPI(data)
-			.then((response: any) => {
-				const { data, token } = response;
-				if (data && token) {
-					localStorage.setItem(LOCAL_TOKEN_KEY, token);
-					router.push("/home");
-				}
-			})
-			.catch(function (error) {
-				console.log(error);
-			});
+		if (typeof window !== "undefined") {
+			logginAPI(data)
+				.then((response: any) => {
+					const { data, token } = response;
+					if (data && token && localStorage) {
+						localStorage.setItem(LOCAL_TOKEN_KEY, token);
+						router.push("/home");
+					}
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+		}
 	};
 
 	return (
