@@ -31,6 +31,7 @@ const SignupPage = () => {
 	};
 
 	const handleSubmit = () => {
+		console.log("window", window);
 		if (typeof window !== "undefined") {
 			signupAPI(data)
 			.then((response: any) => {
