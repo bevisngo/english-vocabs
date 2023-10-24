@@ -36,6 +36,7 @@ export async function POST(request: Request) {
 		console.log(error);
 		return Response.json({
 			error,
+			key: SECRET_KEY,
 		});
 	}
 }
