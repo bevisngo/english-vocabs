@@ -26,6 +26,7 @@ const LoginPage = () => {
 	};
 
 	const handleSubmit = () => {
+		console.log("window", window);
 		if (typeof window !== "undefined") {
 			logginAPI(data)
 				.then((response: any) => {
